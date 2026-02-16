@@ -1,11 +1,63 @@
+body {
+  margin: 0;
+  overflow-x: hidden;
+}
 .hero {
-  min-height: 100vh;
-
-  background-image:
-    linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)),
-    url("https://fastly.picsum.photos/id/40/4106/2806.jpg?hmac=MY3ra98ut044LaWPEKwZowgydHZ_rZZUuOHrc3mL5mI");
-
+  width: 100vw;
+  min-height: calc(109vh - 70px);
+  background-image: url("https://fastly.picsum.photos/id/40/4106/2806.jpg?hmac=MY3ra98ut044LaWPEKwZowgydHZ_rZZUuOHrc3mL5mI");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.696);
+}
+.hero > .container {
+  position: relative;
+  z-index: 2;
+}
+.card-header {
+  background-color: #f8f9fa !important;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.card {
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+}
+
+.badge {
+  font-size: 0.9rem;
+  padding: 0.5em 1em;
+}
+.card-img-top {
+  transition: transform 0.3s ease;
+}
+
+.card:hover .card-img-top {
+  transform: scale(1.05);
+}
+
+.progress-bar.bg-danger {
+  background-color: #dc3545 !important; /* rojo para urgencia */
+}
+
+.btn-primary {
+  transition: all 0.2s;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
