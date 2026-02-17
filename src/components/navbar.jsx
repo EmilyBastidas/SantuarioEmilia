@@ -22,7 +22,6 @@ function Navbar() {
           Santuario de Gatos
         </a>
 
-        {/* Toggler para móvil */}
         <button
           className="navbar-toggler"
           type="button"
