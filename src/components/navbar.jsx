@@ -11,7 +11,6 @@ function Navbar() {
       }}
     >
       <div className="container">
-        {/* Logo con corazón */}
         <a
           className="navbar-brand d-flex align-items-center fw-bold fs-4"
           href="/"
@@ -34,7 +33,6 @@ function Navbar() {
           <span className="navbar-toggler-icon"></span>
         </button>
 
-        {/* Menú colapsable */}
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto align-items-center">
             <li className="nav-item">

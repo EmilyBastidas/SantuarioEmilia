@@ -2,10 +2,12 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 
-import Navbar from "./components/navbar"; // Ajusta la ruta si es necesario
+import Navbar from "./components/navbar";
 import Home from "./pages/Home";
 import Gatitos from "./pages/Cats.jsx";
 import Footer from "./components/Footer";
+import Donate from "./pages/Donate";
+import Transparencia from "./pages/Transparencia";
 
 function App() {
   return (
@@ -18,17 +20,13 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/gatitos" element={<Gatitos />} />
-
-            {/* Agrega las demás páginas cuando las crees */}
-            {/* <Route path="/donar" element={<Donar />} /> */}
-            {/* <Route path="/transparencia" element={<Transparencia />} /> */}
-            {/* <Route path="/admin" element={<Admin />} /> */}
-
-            {/* Ruta para 404 (página no encontrada) - opcional */}
+            <Route path="/donar" element={<Donate />} />
+            <Route path="/transparencia" element={<Transparencia />} />
+            {/* ← esta línea es la clave */}
             <Route
               path="*"
               element={
-                <div className="container py-5 text-center">
+                <div className="text-center py-5">
                   <h1>404 - Página no encontrada</h1>
                   <p>Lo sentimos, esta página no existe.</p>
                 </div>
@@ -36,7 +34,7 @@ function App() {
             />
           </Routes>
         </main>
-        {/* Footer (puedes moverlo aquí o dejarlo dentro de cada página) */}
+        {/* Footer */}
         {Footer && <Footer />}
       </div>
     </Router>

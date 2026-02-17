@@ -52,10 +52,10 @@ const cats = [
 function Gatitos() {
   return (
     <>
-      {/* Hero pequeño o título */}
+      {/* título */}
       <section className="py-5 bg-light text-center">
-        <div className="container">
-          <h1 className="mb-4 fw-bold">Nuestros Gatitos</h1>
+        <div className="container-fluid px-3 px-md-5 m-4">
+          <h1 className="mb-4 mt-4 fw-bold">Nuestros Gatitos</h1>
           <p className="lead text-muted">
             Conoce a los rescatados que están esperando un hogar lleno de amor.
             ¡Cada uno tiene una historia única!
@@ -63,7 +63,7 @@ function Gatitos() {
         </div>
       </section>
 
-      {/* Grid de cards */}
+      {/* grid de cards */}
       <section className="py-5">
         <div className="container">
           <div className="row g-4">

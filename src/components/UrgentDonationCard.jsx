@@ -1,4 +1,3 @@
-// src/components/UrgentDonationCard.jsx
 import React from "react";
 
 function UrgentDonationCard({
@@ -10,7 +9,7 @@ function UrgentDonationCard({
   goal,
   percentage,
 }) {
-  // Badge según urgencia
+  // badge según urgencia
   const getBadgeClass = (status) => {
     switch (status) {
       case "Crítico":
@@ -22,12 +21,10 @@ function UrgentDonationCard({
     }
   };
 
-  // Calcula el ancho de la barra (Bootstrap usa style inline para progreso)
   const progressWidth = `${percentage}%`;
 
   return (
     <div className="card shadow-sm border-0 h-100 d-flex flex-column">
-      {/* Imagen arriba */}
       <img
         src={imageUrl}
         className="card-img-top"
@@ -45,7 +42,6 @@ function UrgentDonationCard({
 
         <p className="card-text text-muted mb-3">{description}</p>
 
-        {/* Progreso */}
         <div className="mb-3">
           <div className="d-flex justify-content-between mb-1 small">
             <span>
@@ -67,7 +63,6 @@ function UrgentDonationCard({
           </div>
         </div>
 
-        {/* Botón de acción */}
         <a
           href="#"
           className="btn btn-primary mt-auto w-100"
