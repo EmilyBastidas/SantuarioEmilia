@@ -23,7 +23,6 @@ const urgentCases = [
     goal: 18000,
     percentage: 53,
   },
-  // agrega más cuando quieras
 ];
 
 function Donate() {

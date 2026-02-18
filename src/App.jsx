@@ -8,6 +8,9 @@ import Gatitos from "./pages/Cats.jsx";
 import Footer from "./components/Footer";
 import Donate from "./pages/Donate";
 import Transparencia from "./pages/Transparencia";
+import Citas from "./pages/Citas";
+import Admin from "./pages/Admin";
+import Urgentes from "./pages/Urgentes";
 
 function App() {
   return (
@@ -22,6 +25,9 @@ function App() {
             <Route path="/gatitos" element={<Gatitos />} />
             <Route path="/donar" element={<Donate />} />
             <Route path="/transparencia" element={<Transparencia />} />
+            <Route path="/citas" element={<Citas />} />
+            <Route path="/urgentes" element={<Urgentes />} />
+            <Route path="/admin" element={<Admin />} />
             {/* ← esta línea es la clave */}
             <Route
               path="*"

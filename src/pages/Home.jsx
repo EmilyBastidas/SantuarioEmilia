@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { FaHeart } from "react-icons/fa";
 import { IoLogoOctocat } from "react-icons/io";
 import AppointmentCard from "../components/AppointmentCard";
@@ -69,7 +70,9 @@ function Home() {
           </p>
 
           <div className="d-flex justify-content-center gap-4 mt-4">
-            <button
+            {/* Botón DONAR → ahora redirige a /donar */}
+            <Link
+              to="/donar"
               className="btn"
               style={{
                 backgroundColor: "rgb(134, 184, 154)",
@@ -78,9 +81,11 @@ function Home() {
             >
               <FaHeart className="me-2" />
               Donar
-            </button>
+            </Link>
 
-            <button
+            {/* Botón CONOCE A NUESTROS GATITOS → redirige a /gatitos */}
+            <Link
+              to="/gatitos"
               className="btn"
               style={{
                 backgroundColor: "rgba(199, 176, 218, 1)",
@@ -89,7 +94,7 @@ function Home() {
             >
               <IoLogoOctocat className="me-2" />
               Conoce a nuestros gatitos
-            </button>
+            </Link>
           </div>
         </div>
       </section>
@@ -129,9 +134,12 @@ function Home() {
         <div className="container">
           <div className="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4">
             <h2 className="mb-3 mb-md-0">Próximas consultas veterinarias</h2>
-            <button className="btn btn-outline-primary px-4">
+            <Link
+              to="/citas"
+              className="btn btn-outline-primary px-4 py-2 rounded-pill"
+            >
               Ver todas las consultas
-            </button>
+            </Link>
           </div>
 
           <div className="row g-4">
@@ -162,7 +170,12 @@ function Home() {
         <div className="container">
           <div className="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4">
             <h2 className="mb-3 mb-md-0">Donaciones urgentes</h2>
-            <button className="btn btn-outline-primary px-4">Ver todos</button>
+            <Link
+              to="/urgentes"
+              className="btn btn-outline-primary px-4 rounded-pill"
+            >
+              Ver todos
+            </Link>
           </div>
 
           <div className="row g-4">
