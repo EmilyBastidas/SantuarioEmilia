@@ -17,7 +17,6 @@ function App() {
     <Router>
       <div className="d-flex flex-column min-vh-100">
         {" "}
-        {/* Para que el footer quede abajo */}
         <Navbar />
         <main className="flex-grow-1">
           <Routes>
