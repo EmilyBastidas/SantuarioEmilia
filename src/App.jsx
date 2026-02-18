@@ -27,7 +27,7 @@ function App() {
             <Route path="/citas" element={<Citas />} />
             <Route path="/urgentes" element={<Urgentes />} />
             <Route path="/admin" element={<Admin />} />
-            {/* ← esta línea es la clave */}
+
             <Route
               path="*"
               element={
