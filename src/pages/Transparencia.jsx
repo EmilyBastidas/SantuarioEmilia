@@ -39,7 +39,7 @@ function Transparencia() {
     },
   ];
 
-  // Total para calcular %
+  // total para calcular %
   const total = gastos.reduce((sum, item) => sum + item.monto, 0);
 
   return (

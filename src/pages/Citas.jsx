@@ -39,7 +39,7 @@ const todasLasCitas = [
     vet: "Dr. Andrés López",
     notes: "Primera dosis de triple felina",
   },
-  // Puedes agregar más cuando quieras
+  // agregar más
 ];
 
 function Citas() {

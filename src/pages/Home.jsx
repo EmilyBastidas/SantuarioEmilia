@@ -201,7 +201,7 @@ function Home() {
           )}
         </div>
       </section>
-      {/* Sección "Juntos hacemos la diferencia" */}
+      {/* sección "Juntos hacemos la diferencia" */}
       <section className="py-5 bg-light text-center">
         <div className="container">
           <h2 className="mb-4 fw-bold" style={{ color: "#4a4a4a" }}>
