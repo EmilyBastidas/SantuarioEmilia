@@ -35,14 +35,6 @@ function CatCard({ name, age, gender, breed, description, imageUrl, status }) {
         </p>
 
         <p className="card-text flex-grow-1">{description}</p>
-
-        <a
-          href="#"
-          className="btn btn-outline-primary mt-3 w-100"
-          style={{ borderColor: "#86b89a", color: "#86b89a" }}
-        >
-          Conoce más de {name}
-        </a>
       </div>
     </div>
   );

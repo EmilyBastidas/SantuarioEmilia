@@ -11,6 +11,7 @@ import Transparencia from "./pages/Transparencia";
 import Citas from "./pages/Citas";
 import Admin from "./pages/Admin";
 import Urgentes from "./pages/Urgentes";
+import Gracias from "./pages/Gracias";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
             <Route path="/citas" element={<Citas />} />
             <Route path="/urgentes" element={<Urgentes />} />
             <Route path="/admin" element={<Admin />} />
+            <Route path="/gracias" element={<Gracias />} />
 
             <Route
               path="*"

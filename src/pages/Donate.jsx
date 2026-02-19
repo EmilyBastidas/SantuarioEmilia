@@ -1,5 +1,6 @@
 import React from "react";
 import UrgentDonationCard from "../components/UrgentDonationCard";
+import { Link } from "react-router-dom";
 
 const urgentCases = [
   {
@@ -40,7 +41,69 @@ function Donate() {
           </p>
         </div>
       </section>
-
+      {/* donación rápida */}
+      <section className="py-5 bg-light">
+        <div className="container">
+          <h2 className="text-center mb-5 fw-bold">Elige cómo ayudar</h2>
+          <div className="row g-4 justify-content-center">
+            {/* Opción 1 */}
+            <div className="col-md-4">
+              <div className="card text-center shadow-sm h-100">
+                <div className="card-body">
+                  <h3 className="card-title mb-4">Donación única</h3>
+                  <p className="display-5 fw-bold text-primary mb-3">$5.000</p>
+                  <p className="text-muted mb-4">
+                    Ayuda inmediata para medicamentos y comida
+                  </p>
+                  <button className="btn btn-primary btn-lg w-100">
+                    Donar $5.000
+                  </button>
+                </div>
+              </div>
+            </div>
+            {/* Opción 2 */}
+            <div className="col-md-4">
+              <div className="card text-center shadow-sm h-100 border-primary">
+                <div className="card-body">
+                  <h3 className="card-title mb-4">Patrocinador mensual</h3>
+                  <p className="display-5 fw-bold text-primary mb-3">
+                    $10.000 <small className="fs-5">/mes</small>
+                  </p>
+                  <p className="text-muted mb-4">
+                    Apoyo constante para cuidados veterinarios
+                  </p>
+                  <button className="btn btn-primary btn-lg w-100">
+                    Ser patrocinador
+                  </button>
+                </div>
+              </div>
+            </div>
+            {/* Opción 3 */}
+            <div className="col-md-4">
+              <div className="card text-center shadow-sm h-100">
+                <div className="card-body">
+                  <h3 className="card-title mb-4">Donación personalizada</h3>
+                  <p className="text-muted mb-4">
+                    Elige el monto que puedas aportar
+                  </p>
+                  <input
+                    type="number"
+                    className="form-control form-control-lg mb-3 text-center"
+                    placeholder="Ingresa monto"
+                    min="1000"
+                  />
+                  {/*<Link
+  to="/gracias"
+  className="btn btn-success btn-lg px-5 py-3 fw-bold"
+>
+  Donar ahora (prueba)
+</Link>*/}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
       {/* donaciones urgentes*/}
       <section className="py-5">
         <div className="container">
@@ -64,70 +127,6 @@ function Donate() {
           </div>
         </div>
       </section>
-
-      {/* donación rápida */}
-      <section className="py-5 bg-light">
-        <div className="container">
-          <h2 className="text-center mb-5 fw-bold">Elige cómo ayudar</h2>
-          <div className="row g-4 justify-content-center">
-            {/* Opción 1 */}
-            <div className="col-md-4">
-              <div className="card text-center shadow-sm h-100">
-                <div className="card-body">
-                  <h3 className="card-title mb-4">Donación única</h3>
-                  <p className="display-5 fw-bold text-primary mb-3">$5.000</p>
-                  <p className="text-muted mb-4">
-                    Ayuda inmediata para medicamentos y comida
-                  </p>
-                  <button className="btn btn-primary btn-lg w-100">
-                    Donar $5.000
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* Opción 2 */}
-            <div className="col-md-4">
-              <div className="card text-center shadow-sm h-100 border-primary">
-                <div className="card-body">
-                  <h3 className="card-title mb-4">Patrocinador mensual</h3>
-                  <p className="display-5 fw-bold text-primary mb-3">
-                    $10.000 <small className="fs-5">/mes</small>
-                  </p>
-                  <p className="text-muted mb-4">
-                    Apoyo constante para cuidados veterinarios
-                  </p>
-                  <button className="btn btn-primary btn-lg w-100">
-                    Ser patrocinador
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* Opción 3 */}
-            <div className="col-md-4">
-              <div className="card text-center shadow-sm h-100">
-                <div className="card-body">
-                  <h3 className="card-title mb-4">Donación personalizada</h3>
-                  <p className="text-muted mb-4">
-                    Elige el monto que puedas aportar
-                  </p>
-                  <input
-                    type="number"
-                    className="form-control form-control-lg mb-3 text-center"
-                    placeholder="Ingresa monto"
-                    min="1000"
-                  />
-                  <button className="btn btn-primary btn-lg w-100">
-                    Donar ahora
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* formación de transparencia y seguridad */}
       <section className="py-5">
         <div className="container text-center">

@@ -77,6 +77,11 @@ function Home() {
               style={{
                 backgroundColor: "rgb(134, 184, 154)",
                 color: "#f4f2f2ff",
+                width: "150px",
+                height: "50px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
               }}
             >
               <FaHeart className="me-2" />
@@ -212,19 +217,6 @@ function Home() {
             Cada donación, sin importar su tamaño, nos ayuda a proporcionar
             cuidados médicos, alimentos y amor a nuestros gatitos rescatados.
           </p>
-
-          <div className="d-flex flex-column flex-sm-row justify-content-center gap-3 mb-5">
-            <a
-              href="#"
-              className="btn btn-success btn-lg px-5 py-3 fw-bold"
-              style={{ backgroundColor: "#86b89a", borderColor: "#86b89a" }} // verde de tu hero
-            >
-              Hacer una donación
-            </a>
-            <a href="#" className="btn btn-outline-secondary btn-lg px-5 py-3">
-              Ver transparencia de gastos
-            </a>
-          </div>
         </div>
       </section>
     </>
