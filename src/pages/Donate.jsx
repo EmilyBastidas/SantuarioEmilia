@@ -38,14 +38,6 @@ function Donate() {
             de nuestros gatitos rescatados. Tu apoyo cubre cirugías,
             medicamentos, alimento y mucho amor.
           </p>
-          <div className="d-flex flex-wrap justify-content-center gap-3">
-            <button className="btn btn-success btn-lg px-5 py-3 fw-bold">
-              Donar ahora
-            </button>
-            <button className="btn btn-outline-primary btn-lg px-5 py-3">
-              Ver transparencia de gastos
-            </button>
-          </div>
         </div>
       </section>
 
