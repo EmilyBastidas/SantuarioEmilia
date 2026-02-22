@@ -70,7 +70,6 @@ function Home() {
           </p>
 
           <div className="d-flex justify-content-center gap-4 mt-4">
-            {/* Botón DONAR → ahora redirige a /donar */}
             <Link
               to="/donar"
               className="btn"
@@ -133,8 +132,6 @@ function Home() {
         </div>
       </section>
 
-      {/*cards de gatos*/}
-
       <section className="py-5 bg-light">
         <div className="container">
           <div className="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4">
@@ -170,7 +167,7 @@ function Home() {
           )}
         </div>
       </section>
-      {/*donaciones urgentes*/}
+
       <section className="py-5">
         <div className="container">
           <div className="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4">
@@ -206,7 +203,7 @@ function Home() {
           )}
         </div>
       </section>
-      {/* sección "Juntos hacemos la diferencia" */}
+
       <section className="py-5 bg-light text-center">
         <div className="container">
           <h2 className="mb-4 fw-bold" style={{ color: "#4a4a4a" }}>
