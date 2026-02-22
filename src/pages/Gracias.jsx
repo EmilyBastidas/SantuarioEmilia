@@ -6,7 +6,6 @@ function Gracias() {
   return (
     <section className="py-5 bg-success text-white min-vh-100 d-flex align-items-center">
       <div className="container text-center">
-        {/* Icono grande de corazón o gato feliz */}
         <div className="mb-5">
           <span style={{ fontSize: "6rem" }}>
             {" "}
@@ -22,7 +21,6 @@ function Gracias() {
           feliz. Cada peso cuenta y llega directo a ellos.
         </p>
 
-        {/* Mensaje personalizado (puedes hacerlo dinámico después) */}
         <div
           className="bg-white bg-opacity-10 rounded p-4 mb-5 mx-auto"
           style={{ maxWidth: "600px" }}
@@ -50,7 +48,6 @@ function Gracias() {
           </Link>
         </div>
 
-        {/* Pequeño mensaje extra */}
         <p className="mt-5 small opacity-75">
           Recibirás un correo de confirmación pronto. Si tienes dudas,
           escríbenos a hola@santuariodegatos.cl <FaHeart />
