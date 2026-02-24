@@ -1,7 +1,7 @@
 import React from "react";
 import UrgentDonationCard from "../components/UrgentDonationCard"; // ajusta la ruta
 
-// Datos de ejemplo (más adelante vendrán de backend)
+// Datos de ejemplo
 const todosLosCasos = [
   {
     petName: "Simba",
