@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FaHeart } from "react-icons/fa";
 import { IoLogoOctocat } from "react-icons/io";
@@ -5,6 +6,31 @@ import AppointmentCard from "../components/AppointmentCard";
 import UrgentDonationCard from "../components/UrgentDonationCard";
 
 function Home() {
+  // Estados
+  const [urgentDonations, setUrgentDonations] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  //FETCH REAL AL BACKEND (Python FastAPI/Flask)
+  useEffect(() => {
+    const fetchCases = async () => {
+      try {
+        const response = await fetch("http://127.0.0.1:8000/urgent-cases/");
+        if (response.ok) {
+          const data = await response.json();
+          console.log("📥 Datos del Backend recibidos:", data);
+          setUrgentDonations(data);
+        }
+      } catch (error) {
+        console.error("❌ Error conectando al Santuario API:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCases();
+  }, []);
+
+  // Datos estáticos para Citas (aquí por ahora)
   const upcomingAppointments = [
     {
       petName: "Simba",
@@ -24,196 +50,88 @@ function Home() {
       vet: "Dr. Carlos Vega",
       notes: "Evaluación de progreso tratamiento antibiótico",
     },
-    {
-      petName: "Pelusa",
-      status: "En tratamiento",
-      date: "sábado, 21 de febrero de 2026",
-      time: "11:00",
-      type: "Control renal",
-      vet: "Dra. Ana Ruiz",
-      notes: "Seguimiento función renal",
-    },
-  ];
-
-  const urgentDonations = [
-    {
-      petName: "Simba",
-      status: "Crítico",
-      imageUrl:
-        "https://c8.alamy.com/comp/T43H36/sick-cat-with-bandaged-leg-cute-ginger-cat-with-broken-leg-on-white-floor-T43H36.jpg", // ejemplo real de gato con yeso
-      description: "Fractura de fémur + trauma múltiple",
-      raised: 18200,
-      goal: 35000,
-      percentage: 52,
-    },
-    //
-    // {
-    //   petName: "Luna",
-    //   status: "Urgente",
-    //   imageUrl: "URL_DE_OTRA_IMAGEN",
-    //   description: "Infección respiratoria grave",
-    //   raised: 8500,
-    //   goal: 15000,
-    //   percentage: 57,
-    // },
   ];
 
   return (
     <>
-      <section className="hero d-flex align-items-center">
+      {/* Hero Section */}
+      <section className="hero d-flex align-items-center bg-dark text-white py-5">
         <div className="container text-center">
-          <h1 className="mb-4 text-light">Cada vida importa</h1>
-
-          <p className="text-light">
-            Rescatamos, cuidamos y damos amor a gatitos que necesitan una
-            segunda oportunidad. Tu ayuda puede salvar vidas.
+          <h1 className="mb-4">Cada vida importa 🐾</h1>
+          <p className="lead mb-4">
+            Rescatamos y cuidamos gatitos que necesitan una segunda oportunidad.
           </p>
-
-          <div className="d-flex justify-content-center gap-4 mt-4">
+          <div className="d-flex justify-content-center gap-3">
             <Link
               to="/donar"
-              className="btn"
-              style={{
-                backgroundColor: "rgb(134, 184, 154)",
-                color: "#f4f2f2ff",
-                width: "150px",
-                height: "50px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
+              className="btn btn-primary btn-lg px-5 rounded-pill"
             >
-              <FaHeart className="me-2" />
-              Donar
+              {" "}
+              <FaHeart className="me-2" /> Donar{" "}
             </Link>
-
-            {/* Botón CONOCE A NUESTROS GATITOS → redirige a /gatitos */}
             <Link
               to="/gatitos"
-              className="btn"
-              style={{
-                backgroundColor: "rgba(199, 176, 218, 1)",
-                color: "#1f1d28ff",
-              }}
+              className="btn btn-outline-light btn-lg px-5 rounded-pill"
             >
-              <IoLogoOctocat className="me-2" />
-              Conoce a nuestros gatitos
+              {" "}
+              <IoLogoOctocat className="me-2" /> Conócelos{" "}
             </Link>
           </div>
         </div>
       </section>
 
-      {/* metricas*/}
-
-      <section className="stats py-5">
-        <div className="container">
-          <div className="row text-center g-4">
-            <div className="col-md-4">
-              <div className="stat-card">
-                <h3>32</h3>
-                <p>Gatitos rescatados</p>
-              </div>
-            </div>
-
-            <div className="col-md-4">
-              <div className="stat-card">
-                <h3>18</h3>
-                <p>Citas veterinarias</p>
-              </div>
-            </div>
-
-            <div className="col-md-4">
-              <div className="stat-card">
-                <h3>$1.240.000</h3>
-                <p>Invertidos en salud</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
+      {/* Sección de Citas (Estáticas) */}
       <section className="py-5 bg-light">
         <div className="container">
-          <div className="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4">
-            <h2 className="mb-3 mb-md-0">Próximas consultas veterinarias</h2>
-            <Link
-              to="/citas"
-              className="btn btn-outline-primary px-4 py-2 rounded-pill"
-            >
-              Ver todas las consultas
-            </Link>
-          </div>
-
+          <h2 className="mb-4 text-center">Próximas consultas</h2>
           <div className="row g-4">
             {upcomingAppointments.map((appt, index) => (
-              <div className="col-md-6 col-lg-4" key={index}>
-                <AppointmentCard
-                  petName={appt.petName}
-                  status={appt.status}
-                  date={appt.date}
-                  time={appt.time}
-                  type={appt.type}
-                  vet={appt.vet}
-                  notes={appt.notes}
-                />
+              <div className="col-md-6" key={index}>
+                <AppointmentCard {...appt} />
               </div>
             ))}
           </div>
-
-          {upcomingAppointments.length === 0 && (
-            <div className="text-center py-5 text-muted">
-              No hay consultas programadas por el momento
-            </div>
-          )}
         </div>
       </section>
 
+      {/* SECCIÓN DINÁMICA: Donaciones Urgentes */}
       <section className="py-5">
         <div className="container">
-          <div className="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4">
-            <h2 className="mb-3 mb-md-0">Donaciones urgentes</h2>
+          <div className="d-flex justify-content-between align-items-center mb-4">
+            <h2>Donaciones urgentes</h2>
             <Link
               to="/urgentes"
-              className="btn btn-outline-primary px-4 rounded-pill"
+              className="btn btn-outline-primary rounded-pill"
             >
               Ver todos
             </Link>
           </div>
 
           <div className="row g-4">
-            {urgentDonations.map((donation, index) => (
-              <div className="col-md-6 col-lg-4" key={index}>
-                <UrgentDonationCard
-                  petName={donation.petName}
-                  status={donation.status}
-                  imageUrl={donation.imageUrl}
-                  description={donation.description}
-                  raised={donation.raised}
-                  goal={donation.goal}
-                  percentage={donation.percentage}
-                />
+            {loading ? (
+              <div className="text-center py-5 w-100">
+                Cargando esperanza... 🐾
               </div>
-            ))}
+            ) : urgentDonations.length > 0 ? (
+              urgentDonations.map((donation, index) => (
+                <div className="col-md-6 col-lg-4" key={donation.id || index}>
+                  <UrgentDonationCard
+                    petName={donation.petName}
+                    status={donation.status}
+                    imageUrl={donation.imageUrl}
+                    description={donation.description}
+                    raised={donation.raised || 0}
+                    goal={donation.goal || 0}
+                    percentage={donation.percentage || 0}
+                  />
+                </div>
+              ))
+            ) : (
+              <div className="text-center py-5 text-muted w-100">
+                No hay campañas activas en el servidor.
+              </div>
+            )}
           </div>
-
-          {urgentDonations.length === 0 && (
-            <div className="text-center py-5 text-muted">
-              No hay campañas urgentes en este momento
-            </div>
-          )}
-        </div>
-      </section>
-
-      <section className="py-5 bg-light text-center">
-        <div className="container">
-          <h2 className="mb-4 fw-bold" style={{ color: "#4a4a4a" }}>
-            Juntos hacemos la diferencia
-          </h2>
-
-          <p className="lead mb-4 text-muted">
-            Cada donación, sin importar su tamaño, nos ayuda a proporcionar
-            cuidados médicos, alimentos y amor a nuestros gatitos rescatados.
-          </p>
         </div>
       </section>
     </>
