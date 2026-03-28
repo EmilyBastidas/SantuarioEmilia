@@ -1,392 +1,584 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import {
+  BiEditAlt,
+  BiTrash,
+  BiPlusCircle,
+  BiSave,
+  BiLogOut,
+  BiXCircle,
+  BiHealth,
+  BiCloudUpload,
+  BiLinkExternal,
+} from "react-icons/bi";
 
 function Admin() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [cats, setCats] = useState([]);
+  const [editingId, setEditingId] = useState(null);
 
+  // ESTADO EXACTO AL MODELO DEL BACKEND
   const [newGatito, setNewGatito] = useState({
     nombre: "",
-    edad: "",
-    genero: "Macho",
-    estado: "Adoptable",
-    descripcion: "",
+    especie: "Felino",
+    sexo: "Macho",
+    fecha_nacimiento: "",
+    edad_aprox: "",
+    color: "",
+    esterilizado: "Desconocido",
+    vacunacion_anual: "No",
+    desparasitacion_interna: "",
+    desparasitacion_externa: "",
+    retrovirales: "Desconocido",
+    portador_de: "Sano",
+    historia_llegada: "Sin información de rescate",
+    caracter: "",
+    ubicacion_actual: "",
+    foto_principal: "",
+    link_nube: "",
+    estatus: "Adoptable",
   });
 
-  const [newCita, setNewCita] = useState({
-    gatoNombre: "",
-    fecha: "",
-    hora: "",
-    veterinario: "",
-    tipo: "",
-    notas: "",
-  });
+  const cloudName = "tu_cloud_name";
+  const uploadPreset = "tu_preset";
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    // Simulación de login exitoso (cualquier cosa sirve por ahora)
-    if (email && password) {
-      setIsLoggedIn(true);
-      alert("¡Bienvenida al panel admin! (modo mock)");
-    } else {
-      alert("Ingresa email y contraseña");
+  const fetchCats = async () => {
+    try {
+      const res = await fetch("http://127.0.0.1:8000/gatitos/");
+      if (res.ok) {
+        const data = await res.json();
+        setCats(data);
+      }
+    } catch (error) {
+      console.error("Error al sincronizar con el servidor:", error);
     }
   };
 
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-    alert("Sesión cerrada");
+  useEffect(() => {
+    if (isLoggedIn) fetchCats();
+  }, [isLoggedIn]);
+
+  const handleEdit = (cat) => {
+    setEditingId(cat.id);
+    setNewGatito(cat);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const handleAddGatito = (e) => {
-    e.preventDefault();
-    alert(
-      `Gatito "${newGatito.nombre}" agregado (mock - no se guarda realmente)`,
-    );
+  const cancelEdit = () => {
+    setEditingId(null);
     setNewGatito({
       nombre: "",
-      edad: "",
-      genero: "Macho",
-      estado: "Adoptable",
-      descripcion: "",
+      especie: "Felino",
+      sexo: "Macho",
+      fecha_nacimiento: "",
+      edad_aprox: "",
+      color: "",
+      esterilizado: "Desconocido",
+      vacunacion_anual: "No",
+      desparasitacion_interna: "",
+      desparasitacion_externa: "",
+      retrovirales: "Desconocido",
+      portador_de: "Sano",
+      historia_llegada: "Sin información de rescate",
+      caracter: "",
+      ubicacion_actual: "",
+      foto_principal: "",
+      link_nube: "",
+      estatus: "Adoptable",
     });
   };
 
-  const handleAddCita = (e) => {
+  const uploadImage = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setLoading(true);
+    const data = new FormData();
+    data.append("file", file);
+    data.append("upload_preset", uploadPreset);
+    try {
+      const res = await fetch(
+        `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+        {
+          method: "POST",
+          body: data,
+        },
+      );
+      const fileData = await res.json();
+      setNewGatito({ ...newGatito, foto_principal: fileData.secure_url });
+      alert("Foto cargada correctamente");
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert(`Cita para "${newCita.gatoNombre}" agendada (mock)`);
-    setNewCita({
-      gatoNombre: "",
-      fecha: "",
-      hora: "",
-      veterinario: "",
-      tipo: "",
-      notas: "",
-    });
+    const url = editingId
+      ? `http://127.0.0.1:8000/gatitos/${editingId}`
+      : "http://127.0.0.1:8000/gatitos/";
+    const method = editingId ? "PUT" : "POST";
+    try {
+      const response = await fetch(url, {
+        method: method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newGatito),
+      });
+      if (response.ok) {
+        alert(editingId ? "¡Ficha actualizada!" : "¡Ficha creada!");
+        cancelEdit();
+        fetchCats();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    if (window.confirm("¿Seguro que quieres eliminar este registro?")) {
+      try {
+        await fetch(`http://127.0.0.1:8000/gatitos/${id}`, {
+          method: "DELETE",
+        });
+        fetchCats();
+      } catch (error) {
+        console.error(error);
+      }
+    }
   };
 
   if (!isLoggedIn) {
     return (
-      <section className="py-5 bg-light min-vh-100 d-flex align-items-center">
-        <div className="container">
-          <div className="row justify-content-center">
-            <div className="col-md-6 col-lg-5">
-              <div className="card shadow-lg border-0 rounded-4 overflow-hidden">
-                <div className="card-body p-5">
-                  <div className="text-center mb-5">
-                    <h2 className="fw-bold text-dark">Inicio de Sesión</h2>
-                    <p className="text-muted">
-                      Solo para el equipo del santuario
-                    </p>
-                  </div>
-
-                  <form onSubmit={handleLogin}>
-                    <div className="mb-4">
-                      <label className="form-label fw-bold">Email</label>
-                      <input
-                        type="email"
-                        className="form-control form-control-lg"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        placeholder="admin@santuariodegatos.cl"
-                        required
-                      />
-                    </div>
-                    <div className="mb-5">
-                      <label className="form-label fw-bold">Contraseña</label>
-                      <input
-                        type="password"
-                        className="form-control form-control-lg"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        placeholder="••••••••"
-                        required
-                      />
-                    </div>
-                    <button
-                      type="submit"
-                      className="btn btn-dark btn-lg w-100 rounded-pill"
-                    >
-                      Iniciar Sesión
-                    </button>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
+      <div className="container py-5 mt-5 d-flex justify-content-center">
+        <div
+          className="card p-5 shadow border-0 rounded-4 w-100"
+          style={{ maxWidth: "400px" }}
+        >
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              setIsLoggedIn(true);
+            }}
+          >
+            <h3 className="text-center mb-4 fw-bold">Gestión Santuario</h3>
+            <input
+              type="email"
+              className="form-control mb-3"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+            <input
+              type="password"
+              className="form-control mb-4"
+              placeholder="Contraseña"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <button className="btn btn-dark w-100 rounded-pill py-2">
+              Ingresar
+            </button>
+          </form>
         </div>
-      </section>
+      </div>
     );
   }
 
   return (
-    <>
-      {/* Header del dashboard */}
-      <section className="py-4 bg-dark text-white shadow-sm mt-4">
-        <div className="container d-flex justify-content-between align-items-center ">
-          <h1 className="mb-0 mt-4 fw-bold">Panel de Administración</h1>
-          <button
-            className="btn btn-outline-light rounded-pill px-4 mt-4"
-            onClick={handleLogout}
-          >
-            Cerrar Sesión
-          </button>
-        </div>
-      </section>
+    <div className="container py-5 mt-5">
+      <div className="d-flex justify-content-between align-items-center mb-5 border-bottom pb-3">
+        <h1 className="fw-bold m-0">Administración Clínica</h1>
+        <button
+          onClick={() => setIsLoggedIn(false)}
+          className="btn btn-outline-danger btn-sm rounded-pill px-4"
+        >
+          <BiLogOut /> Salir
+        </button>
+      </div>
 
-      {/* Acciones rápidas */}
-      <section className="py-5">
-        <div className="container">
-          <h2 className="mb-5 text-center fw-bold">Acciones rápidas</h2>
-          <div className="row g-4">
+      <section
+        className={`card shadow-sm border-0 p-4 mb-5 rounded-4 ${editingId ? "border-top border-warning border-5" : ""}`}
+      >
+        <h3 className="mb-4 d-flex align-items-center gap-2">
+          {editingId ? (
+            <>
+              <BiEditAlt className="text-warning" /> Modificando Ficha
+            </>
+          ) : (
+            <>
+              <BiPlusCircle className="text-primary" /> Nueva Ficha de Rescatado
+            </>
+          )}
+        </h3>
+
+        <form onSubmit={handleSubmit}>
+          {/* IDENTIFICACIÓN BÁSICA */}
+          <div className="row g-3 mb-4">
             <div className="col-md-4">
-              <div className="card shadow h-100 border-0 hover-shadow">
-                <div className="card-body text-center p-5">
-                  <i className="bi bi-cat fs-1 text-primary mb-3 d-block"></i>
-                  <h4 className="card-title">Agregar Gatito</h4>
-                  <p className="text-muted">
-                    Registra nuevos rescates o actualiza perfiles
-                  </p>
-                  <button className="btn btn-primary rounded-pill px-4">
-                    Ir al formulario
-                  </button>
-                </div>
-              </div>
+              <label className="form-label fw-bold small">
+                Nombre (Requerido)
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                value={newGatito.nombre}
+                onChange={(e) =>
+                  setNewGatito({ ...newGatito, nombre: e.target.value })
+                }
+                required
+              />
             </div>
-
-            <div className="col-md-4">
-              <div className="card shadow h-100 border-0 hover-shadow">
-                <div className="card-body text-center p-5">
-                  <i className="bi bi-calendar-event fs-1 text-success mb-3 d-block"></i>
-                  <h4 className="card-title">Nueva Cita Vet</h4>
-                  <p className="text-muted">
-                    Programa controles, cirugías o tratamientos
-                  </p>
-                  <button className="btn btn-success rounded-pill px-4">
-                    Ir al formulario
-                  </button>
-                </div>
-              </div>
+            <div className="col-md-2">
+              <label className="form-label fw-bold small">Especie</label>
+              <input
+                type="text"
+                className="form-control"
+                value={newGatito.especie}
+                onChange={(e) =>
+                  setNewGatito({ ...newGatito, especie: e.target.value })
+                }
+              />
             </div>
-
-            <div className="col-md-4">
-              <div className="card shadow h-100 border-0 hover-shadow">
-                <div className="card-body text-center p-5">
-                  <i className="bi bi-currency-dollar fs-1 text-warning mb-3 d-block"></i>
-                  <h4 className="card-title">Donaciones</h4>
-                  <p className="text-muted">
-                    Revisa aportes recibidos este mes
-                  </p>
-                  <button className="btn btn-warning text-white rounded-pill px-4">
-                    Ver reporte
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Formulario agregar gatito */}
-      <section className="py-5 bg-light">
-        <div className="container">
-          <h2 className="mb-4 fw-bold text-center">
-            Agregar Gatito Nuevo (mock)
-          </h2>
-          <div className="row justify-content-center">
-            <div className="col-lg-8">
-              <form
-                onSubmit={handleAddGatito}
-                className="bg-white p-4 rounded shadow"
+            <div className="col-md-2">
+              <label className="form-label fw-bold small">Sexo</label>
+              <select
+                className="form-select"
+                value={newGatito.sexo}
+                onChange={(e) =>
+                  setNewGatito({ ...newGatito, sexo: e.target.value })
+                }
+                required
               >
-                <div className="row g-3">
-                  <div className="col-md-6">
-                    <label className="form-label fw-bold">Nombre</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      value={newGatito.nombre}
-                      onChange={(e) =>
-                        setNewGatito({ ...newGatito, nombre: e.target.value })
-                      }
-                      placeholder="Ej: Luna"
-                      required
-                    />
-                  </div>
-                  <div className="col-md-6">
-                    <label className="form-label fw-bold">
-                      Edad aproximada
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      value={newGatito.edad}
-                      onChange={(e) =>
-                        setNewGatito({ ...newGatito, edad: e.target.value })
-                      }
-                      placeholder="Ej: 2 años"
-                    />
-                  </div>
-                  <div className="col-md-6">
-                    <label className="form-label fw-bold">Género</label>
-                    <select
-                      className="form-select"
-                      value={newGatito.genero}
-                      onChange={(e) =>
-                        setNewGatito({ ...newGatito, genero: e.target.value })
-                      }
-                    >
-                      <option>Macho</option>
-                      <option>Hembra</option>
-                    </select>
-                  </div>
-                  <div className="col-md-6">
-                    <label className="form-label fw-bold">Estado</label>
-                    <select
-                      className="form-select"
-                      value={newGatito.estado}
-                      onChange={(e) =>
-                        setNewGatito({ ...newGatito, estado: e.target.value })
-                      }
-                    >
-                      <option>Adoptable</option>
-                      <option>En tratamiento</option>
-                      <option>Especial</option>
-                    </select>
-                  </div>
-                  <div className="col-12">
-                    <label className="form-label fw-bold">Descripción</label>
-                    <textarea
-                      className="form-control"
-                      rows="3"
-                      value={newGatito.descripcion}
-                      onChange={(e) =>
-                        setNewGatito({
-                          ...newGatito,
-                          descripcion: e.target.value,
-                        })
-                      }
-                      placeholder="Historia, personalidad, necesidades especiales..."
-                    ></textarea>
-                  </div>
-                  <div className="col-12 text-center mt-4">
-                    <button
-                      type="submit"
-                      className="btn btn-dark btn-lg px-5 rounded-pill"
-                    >
-                      Guardar Gatito (mock)
-                    </button>
-                  </div>
-                </div>
-              </form>
+                <option value="Macho">Macho</option>
+                <option value="Hembra">Hembra</option>
+              </select>
+            </div>
+            <div className="col-md-4">
+              <label className="form-label fw-bold small">Estatus</label>
+              <select
+                className="form-select"
+                value={newGatito.estatus}
+                onChange={(e) =>
+                  setNewGatito({ ...newGatito, estatus: e.target.value })
+                }
+                required
+              >
+                <option value="Adoptable">Adoptable</option>
+                <option value="En tratamiento">En tratamiento</option>
+                <option value="Especial">Especial</option>
+              </select>
             </div>
           </div>
-        </div>
+
+          <div className="row g-3 mb-4">
+            <div className="col-md-3">
+              <label className="form-label fw-bold small">F. Nacimiento</label>
+              <input
+                type="date"
+                className="form-control"
+                value={newGatito.fecha_nacimiento}
+                onChange={(e) =>
+                  setNewGatito({
+                    ...newGatito,
+                    fecha_nacimiento: e.target.value,
+                  })
+                }
+              />
+            </div>
+            <div className="col-md-3">
+              <label className="form-label fw-bold small">
+                Edad Aproximada
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                value={newGatito.edad_aprox}
+                onChange={(e) =>
+                  setNewGatito({ ...newGatito, edad_aprox: e.target.value })
+                }
+              />
+            </div>
+            <div className="col-md-3">
+              <label className="form-label fw-bold small">Color</label>
+              <input
+                type="text"
+                className="form-control"
+                value={newGatito.color}
+                onChange={(e) =>
+                  setNewGatito({ ...newGatito, color: e.target.value })
+                }
+              />
+            </div>
+            <div className="col-md-3">
+              <label className="form-label fw-bold small">
+                Ubicación Actual
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                value={newGatito.ubicacion_actual}
+                onChange={(e) =>
+                  setNewGatito({
+                    ...newGatito,
+                    ubicacion_actual: e.target.value,
+                  })
+                }
+              />
+            </div>
+          </div>
+
+          {/* FICHA MÉDICA SINCRO */}
+          <h5 className="text-success mb-3 d-flex align-items-center gap-2">
+            <BiHealth /> Control Sanitario
+          </h5>
+          <div className="row g-3 mb-4 p-3 bg-light rounded border">
+            <div className="col-md-3">
+              <label className="form-label fw-bold small">Esterilizado</label>
+              <select
+                className="form-select"
+                value={newGatito.esterilizado}
+                onChange={(e) =>
+                  setNewGatito({ ...newGatito, esterilizado: e.target.value })
+                }
+              >
+                <option value="Si">Si</option>
+                <option value="No">No</option>
+                <option value="Desconocido">Desconocido</option>
+              </select>
+            </div>
+            <div className="col-md-3">
+              <label className="form-label fw-bold small">
+                Vacunación Anual
+              </label>
+              <select
+                className="form-select"
+                value={newGatito.vacunacion_anual}
+                onChange={(e) =>
+                  setNewGatito({
+                    ...newGatito,
+                    vacunacion_anual: e.target.value,
+                  })
+                }
+              >
+                <option value="Si">Si</option>
+                <option value="No">No</option>
+              </select>
+            </div>
+            <div className="col-md-3">
+              <label className="form-label fw-bold small">Retrovirales</label>
+              <select
+                className="form-select"
+                value={newGatito.retrovirales}
+                onChange={(e) =>
+                  setNewGatito({ ...newGatito, retrovirales: e.target.value })
+                }
+              >
+                <option value="Negativo">Negativo</option>
+                <option value="Positivo">Positivo</option>
+                <option value="Desconocido">Desconocido</option>
+              </select>
+            </div>
+            <div className="col-md-3">
+              <label className="form-label fw-bold small">Portador de</label>
+              <select
+                className="form-select"
+                value={newGatito.portador_de}
+                onChange={(e) =>
+                  setNewGatito({ ...newGatito, portador_de: e.target.value })
+                }
+              >
+                <option value="Sano">Sano</option>
+                <option value="VIF">VIF</option>
+                <option value="FeLV">FeLV</option>
+                <option value="Mycoplasma">Mycoplasma</option>
+              </select>
+            </div>
+            <div className="col-md-6 mt-3">
+              <label className="form-label fw-bold small">
+                Desparasitación Interna
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                value={newGatito.desparasitacion_interna}
+                onChange={(e) =>
+                  setNewGatito({
+                    ...newGatito,
+                    desparasitacion_interna: e.target.value,
+                  })
+                }
+              />
+            </div>
+            <div className="col-md-6 mt-3">
+              <label className="form-label fw-bold small">
+                Desparasitación Externa
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                value={newGatito.desparasitacion_externa}
+                onChange={(e) =>
+                  setNewGatito({
+                    ...newGatito,
+                    desparasitacion_externa: e.target.value,
+                  })
+                }
+              />
+            </div>
+          </div>
+
+          {/* HISTORIAS Y MULTIMEDIA */}
+          <div className="row g-3 mb-4">
+            <div className="col-md-6">
+              <label className="form-label fw-bold small">
+                Historia de Llegada
+              </label>
+              <textarea
+                className="form-control"
+                rows="3"
+                value={newGatito.historia_llegada}
+                onChange={(e) =>
+                  setNewGatito({
+                    ...newGatito,
+                    historia_llegada: e.target.value,
+                  })
+                }
+              ></textarea>
+            </div>
+            <div className="col-md-6">
+              <label className="form-label fw-bold small">Carácter</label>
+              <textarea
+                className="form-control"
+                rows="3"
+                value={newGatito.caracter}
+                onChange={(e) =>
+                  setNewGatito({ ...newGatito, caracter: e.target.value })
+                }
+              ></textarea>
+            </div>
+          </div>
+
+          <div className="row g-3 align-items-end mb-4">
+            <div className="col-md-4">
+              <label className="form-label fw-bold small">
+                <BiCloudUpload /> Foto Principal (Cloudinary)
+              </label>
+              <input
+                type="file"
+                className="form-control"
+                onChange={uploadImage}
+              />
+            </div>
+            <div className="col-md-8">
+              <label className="form-label fw-bold small">
+                <BiLinkExternal /> Link Nube (Drive / Historial)
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                value={newGatito.link_nube}
+                onChange={(e) =>
+                  setNewGatito({ ...newGatito, link_nube: e.target.value })
+                }
+                placeholder="URL de la nube..."
+              />
+            </div>
+          </div>
+
+          <div className="text-end">
+            {editingId && (
+              <button
+                type="button"
+                onClick={cancelEdit}
+                className="btn btn-light rounded-pill px-4 me-2"
+              >
+                Cancelar
+              </button>
+            )}
+            <button
+              type="submit"
+              className="btn btn-primary btn-lg rounded-pill px-5 shadow"
+              disabled={loading}
+            >
+              <BiSave className="me-2" />{" "}
+              {editingId ? "Guardar Cambios" : "Crear Ficha"}
+            </button>
+          </div>
+        </form>
       </section>
 
-      {/* Formulario agregar cita vet */}
-      <section className="py-5">
-        <div className="container">
-          <h2 className="mb-4 fw-bold text-center">
-            Nueva Cita Veterinaria (mock)
-          </h2>
-          <div className="row justify-content-center">
-            <div className="col-lg-8">
-              <form
-                onSubmit={handleAddCita}
-                className="bg-white p-4 rounded shadow"
-              >
-                <div className="row g-3">
-                  <div className="col-md-6">
-                    <label className="form-label fw-bold">
-                      Nombre del gatito
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      value={newCita.gatoNombre}
-                      onChange={(e) =>
-                        setNewCita({ ...newCita, gatoNombre: e.target.value })
-                      }
-                      placeholder="Ej: Simba"
-                      required
-                    />
-                  </div>
-                  <div className="col-md-6">
-                    <label className="form-label fw-bold">Fecha</label>
-                    <input
-                      type="date"
-                      className="form-control"
-                      value={newCita.fecha}
-                      onChange={(e) =>
-                        setNewCita({ ...newCita, fecha: e.target.value })
-                      }
-                      required
-                    />
-                  </div>
-                  <div className="col-md-6">
-                    <label className="form-label fw-bold">Hora</label>
-                    <input
-                      type="time"
-                      className="form-control"
-                      value={newCita.hora}
-                      onChange={(e) =>
-                        setNewCita({ ...newCita, hora: e.target.value })
-                      }
-                      required
-                    />
-                  </div>
-                  <div className="col-md-6">
-                    <label className="form-label fw-bold">Veterinario</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      value={newCita.veterinario}
-                      onChange={(e) =>
-                        setNewCita({ ...newCita, veterinario: e.target.value })
-                      }
-                      placeholder="Ej: Dra. Patricia"
-                    />
-                  </div>
-                  <div className="col-md-12">
-                    <label className="form-label fw-bold">Tipo de cita</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      value={newCita.tipo}
-                      onChange={(e) =>
-                        setNewCita({ ...newCita, tipo: e.target.value })
-                      }
-                      placeholder="Ej: Cirugía ortopédica"
-                    />
-                  </div>
-                  <div className="col-12">
-                    <label className="form-label fw-bold">Notas</label>
-                    <textarea
-                      className="form-control"
-                      rows="3"
-                      value={newCita.notas}
-                      onChange={(e) =>
-                        setNewCita({ ...newCita, notas: e.target.value })
-                      }
-                      placeholder="Preparación, recomendaciones, etc."
-                    ></textarea>
-                  </div>
-                  <div className="col-12 text-center mt-4">
-                    <button
-                      type="submit"
-                      className="btn btn-success btn-lg px-5 rounded-pill"
-                    >
-                      Agendar Cita (mock)
-                    </button>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
+      {/* TABLA DE REGISTROS */}
+      <section className="bg-white rounded-4 shadow-sm border p-3">
+        <h4 className="fw-bold mb-4 px-2">Residentes del Santuario</h4>
+        <div className="table-responsive">
+          <table className="table table-hover align-middle">
+            <thead className="table-light">
+              <tr>
+                <th>Foto</th>
+                <th>Nombre</th>
+                <th>Estatus</th>
+                <th className="text-center">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {cats.length > 0 ? (
+                cats.map((cat) => (
+                  <tr key={cat.id || Math.random()}>
+                    <td>
+                      <img
+                        src={
+                          cat.foto_principal || "https://via.placeholder.com/50"
+                        }
+                        className="rounded-circle shadow-sm"
+                        width="45"
+                        height="45"
+                        style={{ objectFit: "cover" }}
+                        alt="rescatado"
+                      />
+                    </td>
+                    <td className="fw-bold">{cat.nombre}</td>
+                    <td>
+                      <span className="badge bg-primary-subtle text-primary rounded-pill">
+                        {cat.estatus}
+                      </span>
+                    </td>
+                    <td className="text-center">
+                      <div className="d-flex justify-content-center gap-2">
+                        <button
+                          onClick={() => handleEdit(cat)}
+                          className="btn btn-outline-primary btn-sm rounded-circle p-2"
+                          title="Editar"
+                        >
+                          <BiEditAlt size={18} />
+                        </button>
+                        <button
+                          onClick={() => handleDelete(cat.id)}
+                          className="btn btn-outline-danger btn-sm rounded-circle p-2"
+                          title="Eliminar"
+                        >
+                          <BiTrash size={18} />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="4" className="text-center py-4 text-muted">
+                    No hay rescatados registrados
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
         </div>
       </section>
-    </>
+    </div>
   );
 }
 

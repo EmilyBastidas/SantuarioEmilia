@@ -27,7 +27,6 @@ function Gatitos() {
 
   return (
     <>
-      {/* Título (Se mantiene igual) */}
       <section className="py-5 bg-light text-center">
         <div className="container-fluid px-3 px-md-5 m-4">
           <h1 className="mb-4 mt-4 fw-bold">Nuestros Gatitos</h1>
@@ -37,7 +36,6 @@ function Gatitos() {
         </div>
       </section>
 
-      {/* Grid de cards dinámico */}
       <section className="py-5">
         <div className="container">
           {loading ? (
@@ -51,10 +49,10 @@ function Gatitos() {
                   {" "}
                   {/* Usamos cat.id de la DB */}
                   <CatCard
-                    name={cat.nombre} // Ojo: en Python usamos 'nombre', no 'name'
+                    name={cat.nombre}
                     age={cat.edad_aprox}
                     gender={cat.sexo}
-                    breed={cat.color} // O la raza si la tienes
+                    breed={cat.color}
                     description={cat.historia_llegada}
                     imageUrl={cat.foto_principal}
                     status={cat.estatus}
