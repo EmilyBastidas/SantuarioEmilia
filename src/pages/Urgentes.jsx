@@ -45,7 +45,7 @@ function Urgentes() {
           </div>
         ) : urgentes.length > 0 ? (
           urgentes.map((gato) => (
-            <div className="col-md-6 col-lg-4" key={gato.id}>
+            <div className="col-md-6 col-lg-4" key={gato.id || gato.petName}>
               <UrgentDonationCard
                 petName={gato.petName}
                 status={gato.status}

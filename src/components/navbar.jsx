@@ -46,6 +46,11 @@ function Navbar() {
               </Link>
             </li>
             <li className="nav-item">
+              <Link className="nav-link" to="/urgentes">
+                Casos urgentes
+              </Link>
+            </li>
+            <li className="nav-item">
               <Link className="nav-link" to="/donar">
                 Donar
               </Link>
@@ -57,17 +62,12 @@ function Navbar() {
             </li>
             <li className="nav-item">
               <Link className="nav-link" to="/citas">
-                Citas
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/urgentes">
-                Casos urgentes
+                Próximas citas veterinarias
               </Link>
             </li>
             <li className="nav-item">
               <Link className="nav-link" to="/admin">
-                Admin
+                Inicia Sesión (solo cuidadores)
               </Link>
             </li>
           </ul>
