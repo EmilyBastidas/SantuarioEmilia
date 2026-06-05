@@ -50,7 +50,7 @@ function Gracias() {
 
         <p className="mt-5 small opacity-75">
           Recibirás un correo de confirmación pronto. Si tienes dudas,
-          escríbenos a hola@santuariodegatos.cl <FaHeart />
+          escríbenos a correo@santuariodegatos.cl <FaHeart />
         </p>
       </div>
     </section>
