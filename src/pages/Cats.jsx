@@ -64,7 +64,7 @@ function Gatitos() {
 
           {!loading && cats.length === 0 && (
             <div className="text-center py-5 text-muted">
-              Aún no hay gatitos registrados en el sistema.
+              Aún no hay gatos registrados en el sistema.
             </div>
           )}
         </div>

@@ -84,7 +84,7 @@ function Donate() {
                 <div className="card-body">
                   <h3 className="card-title mb-4">Donación personalizada</h3>
                   <p className="text-muted mb-4">
-                    Elige el monto que puedas aportar
+                    ¿Cómo quieres ayudar? Elige el monto a donar
                   </p>
                   <input
                     type="number"
