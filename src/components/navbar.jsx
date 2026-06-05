@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { IoLogOutSharp } from "react-icons/io5";
 
 function Navbar() {
   return (
@@ -70,6 +71,7 @@ function Navbar() {
                 Inicia Sesión (solo cuidadores)
               </Link>
             </li>
+            <IoLogOutSharp className="nav-link" to="/logout" />
           </ul>
         </div>
       </div>
