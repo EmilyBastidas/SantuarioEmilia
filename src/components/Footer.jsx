@@ -101,8 +101,7 @@ function Footer() {
       <hr className="my-4 border-secondary" />
 
       <div className="text-center small text-secondary">
-        © {new Date().getFullYear()} Santuario de Gatos. Todos los derechos
-        reservados.
+        © {new Date().getFullYear()} Santuario Emilia.
         <br />
         Hecho con <span style={{ color: "#86b89a" }}>♥</span> para nuestros
         amigos felinos.

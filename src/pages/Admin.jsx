@@ -211,7 +211,7 @@ function Admin() {
             </>
           ) : (
             <>
-              <BiPlusCircle className="text-primary" /> Nueva Ficha de Rescatado
+              <BiPlusCircle className="text-primary" /> Nueva ficha de Rescatado
             </>
           )}
         </h3>
@@ -277,7 +277,9 @@ function Admin() {
 
           <div className="row g-3 mb-4">
             <div className="col-md-3">
-              <label className="form-label fw-bold small">F. Nacimiento</label>
+              <label className="form-label fw-bold small">
+                Fecha de Nacimiento
+              </label>
               <input
                 type="date"
                 className="form-control"

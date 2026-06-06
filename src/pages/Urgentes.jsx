@@ -60,8 +60,8 @@ function Urgentes() {
         ) : (
           <div className="col-12 text-center py-5">
             <div className="alert alert-info">
-              Parece que no hay casos urgentes reportados en este momento.
-              ¡Buenas noticias!
+              No hay casos urgentes reportados en este momento. ¡Buenas
+              noticias!
             </div>
           </div>
         )}

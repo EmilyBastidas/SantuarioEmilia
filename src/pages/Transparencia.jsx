@@ -109,7 +109,9 @@ function Transparencia() {
 
       <section className="py-5 bg-success text-white text-center">
         <div className="container">
-          <h3 className="mb-4 fw-bold">Tu confianza nos motiva</h3>
+          <h3 className="mb-4 fw-bold">
+            Tu confianza nos motiva a seguir rescatando a más pequeñitos
+          </h3>
           <p className="lead mb-0">
             Todas las operaciones son auditadas y reportadas públicamente. Si
             tienes dudas o quieres más detalles, escríbenos a
