@@ -140,7 +140,7 @@ function Donate() {
             href="/transparencia"
             className="btn btn-outline-primary btn-lg px-5"
           >
-            Ver reporte de gastos
+            reporte de gastos
           </a>
         </div>
       </section>
